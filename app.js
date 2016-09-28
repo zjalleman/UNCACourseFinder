@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-//var hike = require('./routes/hike');
+var mysql = require('mysql');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -10,8 +10,26 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-//app.get('/hikes', hike.index);
-//app.post('/add_hike', hike.add_hike);
+
+var connection = mysql.createConnection({
+    host : 'zprojectdb.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
+    user : 'zach',
+    password : 'uncacoursefinder'
+});
+
+connection.connect();
+
+/*connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+  if (err) throw err;
+  console.log('The solution is: ', rows[0].solution);
+});*/
+
+connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
+  if (err) throw err;
+  console.log('The solution is: ', rows);
+});
+
+//connection.end();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
