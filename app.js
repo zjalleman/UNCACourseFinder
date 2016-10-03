@@ -14,7 +14,8 @@ var app = express();
 var connection = mysql.createConnection({
     host : 'zprojectdb.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
     user : 'zach',
-    password : 'uncacoursefinder'
+    password : 'uncacoursefinder',
+    database : 'mydb'
 });
 
 connection.connect();
@@ -28,6 +29,14 @@ connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
   if (err) throw err;
   console.log('The solution is: ', rows);
 });
+
+/*var main = function() {
+    var url = 'http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI';
+    $.getJSON(url, function(uncaResponse) {
+        console.log(uncaResponse);
+        var $schedTable = $('<table>');
+    });
+};*/
 
 //connection.end();
 
