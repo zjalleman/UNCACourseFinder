@@ -3,7 +3,7 @@ var csciArray = [{"Code":"CSCI107.001","Term Portion":"","Title":"Intro Computer
 var text = "";
 var x;
 for (i = 0; i < csciArray.length; i++) {
-    text += "<p>"
+    text += "<p> [" + i + "] ";
     for (x in csciArray[i]) {
         text += csciArray[i][x] + " ";
     }
