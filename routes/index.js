@@ -28,15 +28,18 @@ connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
   console.log('The solution is: ', rows);
 });
 
+var csArray;
 var req = http.request(options, (res) => {
     //console.log(res);
     res.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
+        //console.log(`BODY: ${chunk}`);
+        csArray = chunk;
     });
 });
 
 //console.log(req.response);
 req.end();
+console.log(csArray);
 
 /*router.get('http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI', function(req, res, next) {
     console.log(res.toString);
