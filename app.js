@@ -12,7 +12,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-var connection = mysql.createConnection({
+/*var connection = mysql.createConnection({
     host : 'zprojectdb.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
     user : 'zach',
     password : 'uncacoursefinder',
@@ -29,7 +29,7 @@ connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
   if (err) throw err;
   console.log('The solution is: ', rows);
-});
+});*/
 
 /*var main = function() {
     var url = 'http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI';
@@ -39,7 +39,7 @@ connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
     });
 };*/
 
-connection.end();
+//connection.end();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
