@@ -35,7 +35,6 @@ var req = http.request(options, (res) => {
     });
 });
 
-//console.log(req.response);
 req.end();
 
 /*router.get('http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI', function(req, res, next) {
