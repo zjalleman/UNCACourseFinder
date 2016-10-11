@@ -12,6 +12,31 @@ for (i = 0; i < csciArray.length; i++) {
 
 document.getElementById("test").innerHTML = text;
 
+/*var connection = mysql.createConnection({
+    host : 'zprojectdb.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
+    user : 'zach',
+    password : 'uncacoursefinder',
+    database : 'mydb'
+});
+
+connection.connect();
+
+connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+  if (err) throw err;
+  console.log('The solution is: ', rows[0].solution);
+});
+
+connection.end();*/
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var mysql = require('mysql');
 var favicon = require('serve-favicon');
@@ -38,7 +39,7 @@ connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
     });
 };*/
 
-//connection.end();
+connection.end();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,6 +52,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.use('/', routes);
 app.use('/users', users);
