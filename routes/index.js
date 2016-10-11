@@ -28,10 +28,16 @@ connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
   console.log('The solution is: ', rows);
 });
 
+var body = [];
 var req = http.request(options, (res) => {
     //console.log(res);
     res.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
+        //console.log(`BODY: ${chunk}`);
+        body.push(chunk);
+    });
+    res.on('end', function() {
+        body = Buffer.concat(body).toString();
+        console.log(JSON.parse(body)[0]);
     });
 });
 
