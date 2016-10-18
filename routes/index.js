@@ -38,6 +38,12 @@ var req = http.request(options, (res) => {
     res.on('end', function() {
         body = Buffer.concat(body).toString();
         console.log(JSON.parse(body)[0]);
+        var qBody = JSON.parse(body)[0];
+        //console.log(qBody.Code);
+        connection.query('INSERT INTO `CourseInfo` (codeCourses,term,titleCourses,crn,hours,days,startTime,endTime,location,lmt,enr,wlCap,wlAct) VALUES("' + qBody.Code + '","' + qBody["Term Portion"] + '","' + qBody.Title + '",' + parseInt(qBody.CRN) + ',' + qBody["Maximum credit hours"] + ',"' + qBody.Days + '","' + qBody["Start time"] + '","' + qBody["End time"] + '","' + qBody.Location + '",' + qBody["Enrollment limit"] + ',' + qBody["Current enrollment"] + ',' + qBody["Waitlist total seats"] + ',' + qBody["Waitlist filled seats"] + ');', function(err, result) {
+            if (err) throw err;
+            //console.log(result.affectedRows);
+        });
     });
 });
 
@@ -55,7 +61,7 @@ req.end();
     });
 };*/
 
-connection.end();
+//connection.end();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
