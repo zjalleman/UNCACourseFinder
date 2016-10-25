@@ -70,7 +70,6 @@ for (i = 0; i < csciArray.length; i++) {
                 for (x in rows[j]) {
                     text[j] += rows[j][x] + ' ';
                 }
-                //text += "</p>";
             }
             console.log(rows[0].codeCourses);
             router.get('/', function(req, res, next) {
