@@ -62,15 +62,15 @@ for (i = 0; i < csciArray.length; i++) {
         
         connection.query('SELECT * FROM `CourseInfo`', function(err, rows, fields) {
             if (err) throw err;
-            var text = "";
+            var text = new Array(rows.length);
             var x;
             var j;
             for (j = 0; j < rows.length; j++) {
-                text += "<p> [" + j + "] ";
+                text[j] = '[' + j + '] ';
                 for (x in rows[j]) {
-                    text += rows[j][x] + " ";
+                    text[j] += rows[j][x] + ' ';
                 }
-                text += "</p>";
+                //text += "</p>";
             }
             console.log(rows[0].codeCourses);
             router.get('/', function(req, res, next) {
