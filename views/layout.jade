@@ -1,7 +1,17 @@
 include home.html
 main
-    each item in main
-        p= item
+
+    button(type='button', onclick="document.getElementById('testTable').style.visibility = 'visible'")
+        | Click me
+
+    table#testTable
+        tr
+            th test
+        each item in main
+            tr
+                td= item
+            //p= item
+            
 //doctype html
 //html.
     <head>
