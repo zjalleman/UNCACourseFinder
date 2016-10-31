@@ -57,9 +57,9 @@ var req = http.request(options, (res) => {
                 //console.log(result.affectedRows);
             });
             
-            connection.query('INSERT INTO `InstVsCourse` Values(' + i + ',' + parseInt(qBody.CRN) + ');', function(err, result) {
+            /*connection.query('INSERT IGNORE INTO `InstVsCourse` Values(' + i + ',' + parseInt(qBody.CRN) + ');', function(err, result) {
                 if (err) throw err;
-            });
+            });*/
             
             console.log(i);
         }
