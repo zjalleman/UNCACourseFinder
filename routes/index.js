@@ -42,7 +42,7 @@ var req = http.request(options, (res) => {
         for (i = 0; i < JSON.parse(body).length; i++) {
             var qBody = JSON.parse(body)[i];
             
-            connection.query('INSERT IGNORE INTO `CourseInfo` (codeCourses,term,titleCourses,crn,hours,days,startTime,endTime,location,lmt,enr,wlCap,wlAct) VALUES("' + qBody.Code + '","' + qBody["Term Portion"] + '","' + connection.escape(qBody.Title) + '",' + parseInt(qBody.CRN) + ',' + qBody["Maximum credit hours"] + ',"' + qBody.Days + '","' + qBody["Start time"] + '","' + qBody["End time"] + '","' + qBody.Location + '",' + qBody["Enrollment limit"] + ',' + qBody["Current enrollment"] + ',' + qBody["Waitlist total seats"] + ',' + qBody["Waitlist filled seats"] + ');', function(err, result) {
+            connection.query('INSERT IGNORE INTO `CourseInfo` (codeCourses,term,titleCourses,crn,hours,days,startTime,endTime,location,lmt,enr,wlCap,wlAct,idCourse) VALUES("' + qBody.Code + '","' + qBody["Term Portion"] + '","' + connection.escape(qBody.Title) + '",' + parseInt(qBody.CRN) + ',' + qBody["Maximum credit hours"] + ',"' + qBody.Days + '","' + qBody["Start time"] + '","' + qBody["End time"] + '","' + qBody.Location + '",' + qBody["Enrollment limit"] + ',' + qBody["Current enrollment"] + ',' + qBody["Waitlist total seats"] + ',' + qBody["Waitlist filled seats"] + ',' + i + ');', function(err, result) {
                 if (err) {
                     console.log(err);
                     if (err.errno == 1064) {
@@ -71,7 +71,7 @@ for (i = 0; i < csciArray.length; i++) {
     text += "</p>";
 }*/
         
-        connection.query('SELECT * FROM `CourseInfo`', function(err, rows, fields) {
+        connection.query('SELECT codeCourses, term, titleCourses, crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct FROM `CourseInfo` ORDER BY `idCourse` ASC', function(err, rows, fields) {
             console.log("hi");
             if (err) throw err;
             var text = new Array(rows.length);
