@@ -1,12 +1,14 @@
 include home.html
 main
 
-    button(type='button', onclick="document.getElementById('testTable').style.visibility = 'visible'")
-        | Click me
+    button(type='button', onclick="document.getElementById('showAll').style.visibility = 'visible'")
+        | Display All
+    button(type='button', onclick="document.getElementById('showAll').style.visibility = 'hidden'")
+        | Hide All
 
-    table#testTable
+    table#showAll
         tr
-            th test
+            th Full Course List
         each item in main
             tr
                 td= item

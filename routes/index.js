@@ -36,7 +36,7 @@ var req = http.request(options, (res) => {
         body.push(chunk);
     });
     res.on('end', function() {
-        body = Buffer.concat(body).toString();
+        /*body = Buffer.concat(body).toString();
         console.log(JSON.parse(body).length);
         var i;
         for (i = 0; i < JSON.parse(body).length; i++) {
@@ -57,26 +57,23 @@ var req = http.request(options, (res) => {
                 //console.log(result.affectedRows);
             });
             
-            /*connection.query('INSERT IGNORE INTO `InstVsCourse` Values(' + i + ',' + parseInt(qBody.CRN) + ');', function(err, result) {
-                if (err) throw err;
-            });*/
-            
             console.log(i);
         }
         
-        //console.log(qBody.Code);
+        for (i = 0; i < JSON.parse(body).length; i++) {
+            var qBody = JSON.parse(body)[i];
+            
+            connection.query('INSERT IGNORE INTO `InstVsCourse` Values((SELECT idInstructors FROM Instructors WHERE nameInstructors = "' + qBody["Instructor(s)"] + '"),' + parseInt(qBody.CRN) + ');', function(err, result) {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
+            });
+            
+            console.log("IvC " + i);
+        }*/
         
-        /*var text = "";
-var x;
-for (i = 0; i < csciArray.length; i++) {
-    text += "<p> [" + i + "] ";
-    for (x in csciArray[i]) {
-        text += csciArray[i][x] + " ";
-    }
-    text += "</p>";
-}*/
-        
-        connection.query('SELECT codeCourses, term, titleCourses, crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct FROM `CourseInfo` ORDER BY `idCourse` ASC', function(err, rows, fields) {
+        connection.query('SELECT codeCourses, term, titleCourses, nameInstructors, CourseInfo.crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct FROM CourseInfo, Instructors, InstVsCourse WHERE CourseInfo.crn = InstVsCourse.crn AND Instructors.idInstructors = InstVsCourse.idInstructors ORDER BY `idCourse` ASC;', function(err, rows, fields) {
             console.log("hi");
             if (err) throw err;
             var text = new Array(rows.length);
