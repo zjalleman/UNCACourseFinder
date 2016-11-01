@@ -36,13 +36,27 @@ var req = http.request(options, (res) => {
         body.push(chunk);
     });
     res.on('end', function() {
-        /*body = Buffer.concat(body).toString();
+        body = Buffer.concat(body).toString();
         console.log(JSON.parse(body).length);
         var i;
+        
         for (i = 0; i < JSON.parse(body).length; i++) {
             var qBody = JSON.parse(body)[i];
             
-            connection.query('INSERT IGNORE INTO `CourseInfo` (codeCourses,term,titleCourses,crn,hours,days,startTime,endTime,location,lmt,enr,wlCap,wlAct,idCourse) VALUES("' + qBody.Code + '","' + qBody["Term Portion"] + '","' + connection.escape(qBody.Title) + '",' + parseInt(qBody.CRN) + ',' + qBody["Maximum credit hours"] + ',"' + qBody.Days + '","' + qBody["Start time"] + '","' + qBody["End time"] + '","' + qBody.Location + '",' + qBody["Enrollment limit"] + ',' + qBody["Current enrollment"] + ',' + qBody["Waitlist total seats"] + ',' + qBody["Waitlist filled seats"] + ',' + i + ');', function(err, result) {
+            connection.query('INSERT IGNORE INTO `Departments` (nameDepartments) VALUES("' + qBody.Code.slice(0,5).replace(/[^a-zA-Z ]/g, "") + '");', function(err, result) {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
+            });
+            
+            console.log("Departments " + i);
+        }
+        
+        for (i = 0; i < JSON.parse(body).length; i++) {
+            var qBody = JSON.parse(body)[i];
+            
+            connection.query('INSERT IGNORE INTO `CourseInfo` (codeCourses,term,titleCourses,crn,hours,days,startTime,endTime,location,lmt,enr,wlCap,wlAct,idCourse,idDepartments) VALUES("' + qBody.Code + '","' + qBody["Term Portion"] + '","' + connection.escape(qBody.Title) + '",' + parseInt(qBody.CRN) + ',' + qBody["Maximum credit hours"] + ',"' + qBody.Days + '","' + qBody["Start time"] + '","' + qBody["End time"] + '","' + qBody.Location + '",' + qBody["Enrollment limit"] + ',' + qBody["Current enrollment"] + ',' + qBody["Waitlist total seats"] + ',' + qBody["Waitlist filled seats"] + ',' + i + ',' + '(SELECT idDepartments FROM Departments WHERE nameDepartments = "' + qBody.Code.slice(0,5).replace(/[^a-zA-Z ]/g, "") + '")' + ');', function(err, result) {
                 if (err) {
                     console.log(err);
                     if (err.errno == 1064) {
@@ -57,7 +71,7 @@ var req = http.request(options, (res) => {
                 //console.log(result.affectedRows);
             });
             
-            console.log(i);
+            console.log("Course & Instruct " + i);
         }
         
         for (i = 0; i < JSON.parse(body).length; i++) {
@@ -71,9 +85,9 @@ var req = http.request(options, (res) => {
             });
             
             console.log("IvC " + i);
-        }*/
+        }
         
-        connection.query('SELECT codeCourses, term, titleCourses, nameInstructors, CourseInfo.crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct FROM CourseInfo, Instructors, InstVsCourse WHERE CourseInfo.crn = InstVsCourse.crn AND Instructors.idInstructors = InstVsCourse.idInstructors ORDER BY `idCourse` ASC;', function(err, rows, fields) {
+        connection.query('SELECT codeCourses, term, titleCourses, nameInstructors, CourseInfo.crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct, nameDepartments FROM CourseInfo, Instructors, InstVsCourse, Departments WHERE CourseInfo.crn = InstVsCourse.crn AND Instructors.idInstructors = InstVsCourse.idInstructors AND CourseInfo.idDepartments = Departments.idDepartments ORDER BY `idCourse` ASC;', function(err, rows, fields) {
             console.log("hi");
             if (err) throw err;
             var text = new Array(rows.length);
