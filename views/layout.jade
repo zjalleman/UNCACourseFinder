@@ -3,8 +3,12 @@ main
 
     button(type='button', onclick="document.getElementById('showAll').style.visibility = 'visible'")
         | Display All
-    button(type='button', onclick="document.getElementById('showAll').style.visibility = 'hidden'")
+    button(type='button', onclick="document.getElementByTagName('table').style.visibility = 'hidden'")
         | Hide All
+
+    select(name='Filter')
+        option(disabled='', selected='') Filter by...
+        option
 
     table#showAll
         tr
@@ -12,6 +16,12 @@ main
         each item in main
             tr
                 td= item
+    
+    
+    table#filterDept
+        tr
+            th 
+                
 
 
 
