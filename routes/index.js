@@ -40,7 +40,7 @@ var req = http.request(options, (res) => {
         console.log(JSON.parse(body).length);
         var i;
         
-        for (i = 0; i < JSON.parse(body).length; i++) {
+        /*for (i = 0; i < JSON.parse(body).length; i++) {
             var qBody = JSON.parse(body)[i];
             
             connection.query('INSERT IGNORE INTO `Departments` (nameDepartments) VALUES("' + qBody.Code.slice(0,5).replace(/[^a-zA-Z ]/g, "") + '");', function(err, result) {
@@ -85,7 +85,7 @@ var req = http.request(options, (res) => {
             });
             
             console.log("IvC " + i);
-        }
+        }*/
         
         connection.query('SELECT codeCourses, term, titleCourses, nameInstructors, CourseInfo.crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct, nameDepartments FROM CourseInfo, Instructors, InstVsCourse, Departments WHERE CourseInfo.crn = InstVsCourse.crn AND Instructors.idInstructors = InstVsCourse.idInstructors AND CourseInfo.idDepartments = Departments.idDepartments ORDER BY `idCourse` ASC;', function(err, rows, fields) {
             console.log("hi");

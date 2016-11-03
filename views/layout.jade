@@ -3,13 +3,14 @@ main
 
     button(type='button', onclick="document.getElementById('showAll').style.visibility = 'visible'")
         | Display All
-    button(type='button', onclick="document.getElementByTagName('table').style.visibility = 'hidden'")
+    button(type='button', onclick="document.getElementsByTagName('table').style.visibility = 'hidden'")
         | Hide All
 
-    select(name='Filter')
-        option(disabled='', selected='') Filter by...
-        option
+    select(id='dropDwn', name='Filter', onchange="document.getElementById('dropDwn').value")
+        option(selected='') Filter by...
+        option(value="document.getElementById('filterDept').style.visibility = 'visible'") Department
 
+    
     table#showAll
         tr
             th Full Course List
@@ -20,8 +21,9 @@ main
     
     table#filterDept
         tr
-            th 
-                
+            th asdfasdf
+        tr
+            td hi
 
 
 
