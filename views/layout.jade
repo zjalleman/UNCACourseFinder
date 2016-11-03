@@ -1,15 +1,30 @@
 include home.html
 main
 
-    button(type='button', onclick="document.getElementById('showAll').style.visibility = 'visible'")
+    button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
         | Display All
-    button(type='button', onclick="document.getElementsByTagName('table').style.visibility = 'hidden'")
+    button(type='button', onclick="hideAll()")
         | Hide All
 
-    select(id='dropDwn', name='Filter', onchange="document.getElementById('dropDwn').value")
-        option(selected='') Filter by...
-        option(value="document.getElementById('filterDept').style.visibility = 'visible'") Department
+    select(id='filter', name='FilterDropDwn', onchange="showFilter(this.value)")
+        option(selected='', value='') Filter by...
+        option(value='filterDept') Department
 
+    script.
+        function showFilter(value) {
+            if(value !== '0'){
+                document.getElementById(value).style.display = 'block';
+            }
+        }
+    
+    script.
+        function hideAll() {
+            var x = document.getElementsByTagName('table');
+            var i;
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = 'none';
+            }
+        }
     
     table#showAll
         tr
@@ -21,9 +36,8 @@ main
     
     table#filterDept
         tr
-            th asdfasdf
-        tr
-            td hi
+            th asdf
+                
 
 
 
