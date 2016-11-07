@@ -91,8 +91,10 @@ var req = http.request(options, (res) => {
             console.log("hi");
             if (err) throw err;
             var text = new Array(rows.length);
+            var dept = new Array();
             var x;
             var j;
+            var k;
             for (j = 0; j < rows.length; j++) {
                 console.log(j);
                 text[j] = '[' + j + '] ';
@@ -100,9 +102,20 @@ var req = http.request(options, (res) => {
                     text[j] += rows[j][x] + ' ';
                 }
             }
+            for (j = 0; j < rows.length; j++) {
+                var dupe = 0;
+                for (k = 0; k < dept.length; k++) {
+                    if (rows[j].nameDepartments === dept[k]) {
+                        dupe = 1;
+                    }
+                }
+                if (dupe === 0) {
+                    dept.push(rows[j].nameDepartments);
+                }
+            }
             console.log(rows[0].codeCourses);
             router.get('/', function(req, res, next) {
-                res.render('layout', { main: text});
+                res.render('layout', { main: text, deptList: dept});
             });
         });
     });

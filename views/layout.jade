@@ -10,9 +10,40 @@ main
         option(selected='', value='') Filter by...
         option(value='filterDept') Department
 
+    //p= main.length
+
+    select(id='filterDept', name='deptDropDwn', onchange="filterByDept(this.value)")
+        option(selected='') Select Department...
+        each item in deptList
+            option(value=item)= item 
+
+    script.
+        function filterByDept(value) {
+            var list = "#{main}";
+            var main = list.split(" ,");
+            if (document.getElementById("dept") !== null) {
+                document.body.removeChild(document.getElementById("dept"));
+            }
+            var deptTable = document.createElement("TABLE");
+            deptTable.setAttribute("id", "dept");
+            deptTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Showing Courses in " + value;
+            document.body.appendChild(deptTable);
+            
+            var i;
+            for (i = 0; i < main.length; i++) {
+                var doc = document.getElementById("dept");
+                var row = document.createElement("TR");
+                var cell = document.createElement("TD");
+                if (main[i].endsWith(" " + value) || main[i].endsWith(" " + value + " ")) {
+                    doc.appendChild(row).appendChild(cell).innerHTML = main[i];
+                }
+            }
+            document.getElementById("dept").style.display = 'block';
+        }
+
     script.
         function showFilter(value) {
-            if(value !== '0'){
+            if(value !== ''){
                 document.getElementById(value).style.display = 'block';
             }
         }
@@ -34,10 +65,9 @@ main
                 td= item
     
     
-    table#filterDept
+    //table#dept
         tr
             th asdf
-                
 
 
 
