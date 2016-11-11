@@ -24,6 +24,6 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-#filterDept, #profDept {
+#filterDept, #filterProf {
     display: none;
 }

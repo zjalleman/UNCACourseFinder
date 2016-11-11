@@ -100,7 +100,7 @@ var req = http.request(options, (res) => {
                 console.log(j);
                 text[j] = '[' + j + '] ';
                 for (x in rows[j]) {
-                    text[j] += rows[j][x] + ' ';
+                    text[j] += rows[j][x] + '_';
                 }
             }
             for (j = 0; j < rows.length; j++) {

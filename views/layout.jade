@@ -36,7 +36,8 @@ main
                 }
             } else {
                 var list = "#{main}";
-                var main = list.split(" ,");
+                var main = list.split("_,");
+                //console.log(main[0]);
                 if (document.getElementById("prof") !== null) {
                     document.body.removeChild(document.getElementById("prof"));
                 }
@@ -53,7 +54,7 @@ main
                     var doc = document.getElementById("prof");
                     var row = document.createElement("TR");
                     var cell = document.createElement("TD");
-                    if (main[i].includes(" " + value + " ")) {
+                    if (main[i].includes("_" + value + "_")) {
                         doc.appendChild(row).appendChild(cell).innerHTML = main[i];
                     }
                 }
@@ -72,7 +73,8 @@ main
                 }
             } else {
                 var list = "#{main}";
-                var main = list.split(" ,");
+                var main = list.split("_,");
+                //console.log(main[0]);
                 if (document.getElementById("dept") !== null) {
                     document.body.removeChild(document.getElementById("dept"));
                 }
@@ -89,7 +91,7 @@ main
                     var doc = document.getElementById("dept");
                     var row = document.createElement("TR");
                     var cell = document.createElement("TD");
-                    if (main[i].endsWith(" " + value) || main[i].endsWith(" " + value + " ")) {
+                    if (main[i].endsWith(main[i].endsWith("_" + value)) {
                         doc.appendChild(row).appendChild(cell).innerHTML = main[i];
                     }
                 }
