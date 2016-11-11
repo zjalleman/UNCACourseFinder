@@ -128,13 +128,13 @@ var req = http.request(options, (res) => {
             console.log(rows[0].codeCourses);
             router.get('/', function(req, res, next) {
                 res.render('layout', { main: text, deptList: dept, profList: prof});
+                console.log('done');
             });
         });
     });
 });
 
 req.end();
-
 /*router.get('http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI', function(req, res, next) {
     console.log(res.toString);
 });*/

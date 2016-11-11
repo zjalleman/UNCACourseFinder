@@ -1,6 +1,7 @@
 include home.html
 main
-
+    button(type='button', onclick="showAll()")
+        | All
     button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
         | Display All
     button(type='button', onclick="hideAll()")
@@ -27,6 +28,7 @@ main
 
     script.
         function filterByProf(value) {
+            console.log('31');
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
             }
@@ -37,6 +39,7 @@ main
             } else {
                 var list = "#{main}";
                 var main = list.split("_,");
+                main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
                 //console.log(main[0]);
                 if (document.getElementById("prof") !== null) {
                     document.body.removeChild(document.getElementById("prof"));
@@ -48,13 +51,15 @@ main
                 profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
                 
                 document.body.appendChild(profTable);
-            
+                console.log('54');
                 var i;
                 for (i = 0; i < main.length; i++) {
+                    //console.log(i);
                     var doc = document.getElementById("prof");
                     var row = document.createElement("TR");
                     var cell = document.createElement("TD");
-                    if (main[i].includes("_" + value + "_")) {
+                    if (main[i].split("_")[3].includes(value)) {
+                        console.log('yo');
                         doc.appendChild(row).appendChild(cell).innerHTML = main[i];
                     }
                 }
@@ -64,6 +69,7 @@ main
 
     script.
         function filterByDept(value) {
+            console.log('70');
             if (document.getElementById("prof") !== null) {
                 document.body.removeChild(document.getElementById("prof"));
             }
@@ -74,6 +80,7 @@ main
             } else {
                 var list = "#{main}";
                 var main = list.split("_,");
+                main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
                 //console.log(main[0]);
                 if (document.getElementById("dept") !== null) {
                     document.body.removeChild(document.getElementById("dept"));
@@ -91,7 +98,7 @@ main
                     var doc = document.getElementById("dept");
                     var row = document.createElement("TR");
                     var cell = document.createElement("TD");
-                    if (main[i].endsWith(main[i].endsWith("_" + value)) {
+                    if (main[i].includes("_" + value)) {
                         doc.appendChild(row).appendChild(cell).innerHTML = main[i];
                     }
                 }
@@ -142,12 +149,21 @@ main
             }
         }
     
+    script.
+        function showAll() {
+            var list = "#{main}";
+            var main = list.split("_,");
+            //console.log(main[main.length - 1].slice(0, this.length-1));
+            main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
+            
+        }
+
     table#showAll
         thead
             tr
                 th(onclick="console.log('hi')") Course Code
         tbody
-            each item in main
+            //each item in main
                 tr
                     td= item
     
