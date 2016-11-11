@@ -11,6 +11,7 @@ main
     select(id='filter', name='FilterDropDwn', onchange="showFilter(this.value)")
         option(selected='', value='') Filter by...
         option(value='filterDept') Department
+        option(value='filterProf') Instructor
 
     //p= main.length
 
@@ -18,9 +19,53 @@ main
         option(selected='', value='') Select Department...
         each item in deptList
             option(value=item)= item 
+    
+    select(id='filterProf', name='profDropDwn', onchange="filterByProf(this.value)")
+        option(selected='', value='') Select Instructor...
+        each item in profList
+            option(value=item)= item
+
+    script.
+        function filterByProf(value) {
+            if (document.getElementById("dept") !== null) {
+                document.body.removeChild(document.getElementById("dept"));
+            }
+            if (value === '') {
+                if (document.getElementById("prof") !== null) {
+                    document.body.removeChild(document.getElementById("prof"));
+                }
+            } else {
+                var list = "#{main}";
+                var main = list.split(" ,");
+                if (document.getElementById("prof") !== null) {
+                    document.body.removeChild(document.getElementById("prof"));
+                }
+                var profTable = document.createElement("TABLE");
+                profTable.setAttribute("id", "prof");
+                profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = value;
+                
+                profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
+                
+                document.body.appendChild(profTable);
+            
+                var i;
+                for (i = 0; i < main.length; i++) {
+                    var doc = document.getElementById("prof");
+                    var row = document.createElement("TR");
+                    var cell = document.createElement("TD");
+                    if (main[i].includes(" " + value + " ")) {
+                        doc.appendChild(row).appendChild(cell).innerHTML = main[i];
+                    }
+                }
+                document.getElementById("prof").style.display = 'block';
+            }
+        }
 
     script.
         function filterByDept(value) {
+            if (document.getElementById("prof") !== null) {
+                document.body.removeChild(document.getElementById("prof"));
+            }
             if (value === '') {
                 if (document.getElementById("dept") !== null) {
                     document.body.removeChild(document.getElementById("dept"));

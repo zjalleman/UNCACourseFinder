@@ -92,6 +92,7 @@ var req = http.request(options, (res) => {
             if (err) throw err;
             var text = new Array(rows.length);
             var dept = new Array();
+            var prof = new Array();
             var x;
             var j;
             var k;
@@ -113,9 +114,20 @@ var req = http.request(options, (res) => {
                     dept.push(rows[j].nameDepartments);
                 }
             }
+            for (j = 0; j < rows.length; j++) {
+                var dupe = 0;
+                for (k = 0; k < prof.length; k++) {
+                    if (rows[j].nameInstructors === prof[k]) {
+                        dupe = 1;
+                    }
+                }
+                if (dupe === 0) {
+                    prof.push(rows[j].nameInstructors);
+                }
+            }
             console.log(rows[0].codeCourses);
             router.get('/', function(req, res, next) {
-                res.render('layout', { main: text, deptList: dept});
+                res.render('layout', { main: text, deptList: dept, profList: prof});
             });
         });
     });
