@@ -51,7 +51,7 @@ main
                 profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
                 
                 document.body.appendChild(profTable);
-                console.log('54');
+                /*console.log('54');
                 var i;
                 for (i = 0; i < main.length; i++) {
                     //console.log(i);
@@ -62,6 +62,19 @@ main
                         console.log('yo');
                         doc.appendChild(row).appendChild(cell).innerHTML = main[i];
                     }
+                }*/
+                var i;
+                var j;
+                var k;
+                var doc = document.getElementById("prof");
+                for (i = 0; i < main.length; i++) {
+                    if (main[i].split("_")[3] === value) {
+                        var curRow = doc.insertRow(-1);
+                        var rowData = main[i].split("_");
+                        for (j = 0; j < rowData.length; j++) {
+                            curRow.insertCell(-1).innerHTML = rowData[j];
+                        }
+                    }
                 }
                 document.getElementById("prof").style.display = 'block';
             }
@@ -69,7 +82,7 @@ main
 
     script.
         function filterByDept(value) {
-            console.log('70');
+            //console.log('70');
             if (document.getElementById("prof") !== null) {
                 document.body.removeChild(document.getElementById("prof"));
             }
@@ -93,7 +106,7 @@ main
                 
                 document.body.appendChild(deptTable);
             
-                var i;
+                /*var i;
                 for (i = 0; i < main.length; i++) {
                     var doc = document.getElementById("dept");
                     var row = document.createElement("TR");
@@ -101,8 +114,39 @@ main
                     if (main[i].includes("_" + value)) {
                         doc.appendChild(row).appendChild(cell).innerHTML = main[i];
                     }
+                }*/
+                var i;
+                var j;
+                var k;
+                var doc = document.getElementById("dept");
+                for (i = 0; i < main.length; i++) {
+                    if (main[i].split("_")[14] === value) {
+                        var curRow = doc.insertRow(-1);
+                        var rowData = main[i].split("_");
+                        for (j = 0; j < rowData.length; j++) {
+                            curRow.insertCell(-1).innerHTML = rowData[j];
+                        }
+                    }
                 }
                 document.getElementById("dept").style.display = 'block';
+            }
+        }
+
+    script.
+        function showAll() {
+            var list = "#{main}";
+            var main = list.split("_,");
+            main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
+            var getTable = document.getElementById("showAll").tBodies[0];
+            var i;
+            var j;
+            
+            for (i = 0; i < main.length; i++) {
+                getTable.insertRow(-1);
+                var rowData = main[i].split("_");
+                for (j = 0; j < rowData.length; j++) {
+                    getTable.rows[i].insertCell(-1).innerHTML = rowData[j];
+                }
             }
         }
 
@@ -148,29 +192,16 @@ main
                 document.getElementsByTagName('select')[i].style.display = 'none';
             }
         }
-    
-    script.
-        function showAll() {
-            var list = "#{main}";
-            var main = list.split("_,");
-            //console.log(main[main.length - 1].slice(0, this.length-1));
-            main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
-            
-        }
 
     table#showAll
         thead
             tr
                 th(onclick="console.log('hi')") Course Code
         tbody
-            //each item in main
-                tr
-                    td= item
-    
-    
-    //table#dept
-        tr
-            th asdf
+
+
+
+
 
 
 
