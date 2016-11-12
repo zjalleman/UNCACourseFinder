@@ -1,7 +1,7 @@
 include home.html
+body(onload='showAll()')
 main
-    button(type='button', onclick="showAll()")
-        | All
+
     button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
         | Display All
     button(type='button', onclick="hideAll()")
