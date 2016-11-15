@@ -47,10 +47,30 @@ main
             var rowCopy = row.cloneNode(true);
             rowCopy.id = tableId + rowIndex + filterVal;
             if (myTable.rows.namedItem(rowCopy.id) === null) {
-                myTable.appendChild(rowCopy);
-                var myRowIndex = myTable.rows.namedItem(rowCopy.id).rowIndex;
-                console.log(myRowIndex);
-                myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "document.getElementById('mySched').deleteRow(this.rowIndex)");
+                if (myTable.rows.length > 0) {
+                    var i;
+                    var dupe = 0;
+                    for (i = 0; i < myTable.rows.length; i++) {
+                        var myRow = myTable.rows[i];
+                        if (myRow.innerHTML.toString() === rowCopy.innerHTML.toString()) {
+                            dupe = 1;
+                        }
+                        //console.log("hi " + dupe);
+                    }
+                    if (dupe === 0) {
+                        myTable.appendChild(rowCopy);
+                        var myRowIndex = myTable.rows.namedItem(rowCopy.id).rowIndex;
+                        console.log(myRowIndex);
+                        myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "document.getElementById('mySched').deleteRow(this.rowIndex)");
+                    } else {
+                        console.log("ERROR: duplicate entry!")
+                    }
+                } else {
+                    myTable.appendChild(rowCopy);
+                    var myRowIndex = myTable.rows.namedItem(rowCopy.id).rowIndex;
+                    console.log(myRowIndex);
+                    myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "document.getElementById('mySched').deleteRow(this.rowIndex)");
+                }
             }
         }
 
