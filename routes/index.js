@@ -10,15 +10,16 @@ var options = {
 };
 
 var connection = mysql.createConnection({
-    host : 'zprojectdb.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
+    host : 'aa1awz10v1nwj5i.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
     user : 'zach',
     password : 'uncacoursefinder',
+    port : '3306',
     database : 'mydb'
 });
 
 connection.connect();
 
-connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+/*connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
   if (err) throw err;
   console.log('The solution is: ', rows[0].solution);
 });
@@ -26,7 +27,7 @@ connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
   if (err) throw err;
   console.log('The solution is: ', rows);
-});
+});*/
 
 var body = [];
 var req = http.request(options, (res) => {
