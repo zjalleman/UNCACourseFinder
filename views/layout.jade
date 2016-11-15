@@ -1,7 +1,16 @@
 include home.html
 body(onload='showAll()')
+
 main
 
+    table#mySched
+        thead
+            tr
+                th Course Code
+        tbody
+
+    //button(type='button', onclick="showAll()")
+        | Display All
     button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
         | Display All
     button(type='button', onclick="hideAll()")
@@ -20,11 +29,30 @@ main
         option(selected='', value='') Select Department...
         each item in deptList
             option(value=item)= item 
-    
+
     select(id='filterProf', name='profDropDwn', onchange="filterByProf(this.value)")
         option(selected='', value='') Select Instructor...
         each item in profList
             option(value=item)= item
+
+    script.
+        function copyRow(tableId, rowIndex, filterVal) {
+            var myTable = document.getElementById('mySched').tBodies[0];
+            var row;
+            if (tableId === "showAll") {
+                row = document.getElementById("showAll").tBodies[0].rows[rowIndex];
+            } else {
+                row = document.getElementById(tableId).rows[rowIndex];
+            }
+            var rowCopy = row.cloneNode(true);
+            rowCopy.id = tableId + rowIndex + filterVal;
+            if (myTable.rows.namedItem(rowCopy.id) === null) {
+                myTable.appendChild(rowCopy);
+                var myRowIndex = myTable.rows.namedItem(rowCopy.id).rowIndex;
+                console.log(myRowIndex);
+                myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "document.getElementById('mySched').deleteRow(this.rowIndex)");
+            }
+        }
 
     script.
         function filterByProf(value) {
@@ -46,23 +74,17 @@ main
                 }
                 var profTable = document.createElement("TABLE");
                 profTable.setAttribute("id", "prof");
-                profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = value;
-                
-                profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
-                
+                //profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Course Code";
+
+                var header = profTable.createTHead();
+                var hRow = header.insertRow(0);
+                hRow.insertCell(0).outerHTML = "<th>Course Code</th>";
+
+
+                //profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
+
                 document.body.appendChild(profTable);
-                /*console.log('54');
-                var i;
-                for (i = 0; i < main.length; i++) {
-                    //console.log(i);
-                    var doc = document.getElementById("prof");
-                    var row = document.createElement("TR");
-                    var cell = document.createElement("TD");
-                    if (main[i].split("_")[3].includes(value)) {
-                        console.log('yo');
-                        doc.appendChild(row).appendChild(cell).innerHTML = main[i];
-                    }
-                }*/
+
                 var i;
                 var j;
                 var k;
@@ -74,6 +96,7 @@ main
                         for (j = 0; j < rowData.length; j++) {
                             curRow.insertCell(-1).innerHTML = rowData[j];
                         }
+                        curRow.setAttribute("onclick", "copyRow('prof', " + (doc.rows.length-1) + ", '" + value + "')");
                     }
                 }
                 document.getElementById("prof").style.display = 'block';
@@ -101,20 +124,11 @@ main
                 var deptTable = document.createElement("TABLE");
                 deptTable.setAttribute("id", "dept");
                 deptTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Showing Courses in " + value;
-                
-                deptTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
-                
+
+                //deptTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
+
                 document.body.appendChild(deptTable);
-            
-                /*var i;
-                for (i = 0; i < main.length; i++) {
-                    var doc = document.getElementById("dept");
-                    var row = document.createElement("TR");
-                    var cell = document.createElement("TD");
-                    if (main[i].includes("_" + value)) {
-                        doc.appendChild(row).appendChild(cell).innerHTML = main[i];
-                    }
-                }*/
+
                 var i;
                 var j;
                 var k;
@@ -126,6 +140,7 @@ main
                         for (j = 0; j < rowData.length; j++) {
                             curRow.insertCell(-1).innerHTML = rowData[j];
                         }
+                        curRow.setAttribute("onclick", "copyRow('dept', " + (doc.rows.length-1) + ", '" + value + "')");
                     }
                 }
                 document.getElementById("dept").style.display = 'block';
@@ -140,14 +155,16 @@ main
             var getTable = document.getElementById("showAll").tBodies[0];
             var i;
             var j;
-            
+
             for (i = 0; i < main.length; i++) {
                 getTable.insertRow(-1);
                 var rowData = main[i].split("_");
                 for (j = 0; j < rowData.length; j++) {
                     getTable.rows[i].insertCell(-1).innerHTML = rowData[j];
                 }
+                getTable.rows[i].setAttribute("onclick", "copyRow('showAll', " + i + ", 0)");
             }
+            //document.getElementById("showAll").style.display = 'block';
         }
 
     script.
@@ -160,7 +177,7 @@ main
                 document.getElementById(value).style.display = 'inline';
             }
         }
-    
+
     script.
         function resetFilter() {
             var i;
@@ -176,15 +193,15 @@ main
                 }
             }
         }
-    
+
     script.
         function hideAll() {
             var x = document.getElementsByTagName('table');
             var i;
-            for (i = 0; i < x.length; i++) {
+            for (i = 1; i < x.length; i++) {
                 x[i].style.display = 'none';
             }
-            
+
             for (i = 0; i < document.getElementsByTagName('select').length; i++) {
                 document.getElementsByTagName('select')[i].selectedIndex = "0";
             }
@@ -196,7 +213,9 @@ main
     table#showAll
         thead
             tr
-                th(onclick="console.log('hi')") Course Code
+                th Course Code
+                th Term
+                th Title
         tbody
 
 

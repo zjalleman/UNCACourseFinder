@@ -24,6 +24,14 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+tr:hover {
+    background-color: aqua;
+}
+
 #filterDept, #filterProf {
     display: none;
+}
+
+#mySched {
+    display: block;
 }

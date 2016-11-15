@@ -98,7 +98,8 @@ var req = http.request(options, (res) => {
             var k;
             for (j = 0; j < rows.length; j++) {
                 console.log(j);
-                text[j] = '[' + j + '] ';
+                //text[j] = '[' + j + '] ';
+                text[j] = '';
                 for (x in rows[j]) {
                     text[j] += rows[j][x] + '_';
                 }
