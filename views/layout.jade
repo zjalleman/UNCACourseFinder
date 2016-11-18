@@ -1,5 +1,5 @@
 include home.html
-body(onload='showAll()')
+body(onload='showAll(); checkCookie()')
 
 main
 
@@ -35,6 +35,49 @@ main
         each item in profList
             option(value=item)= item
 
+    table(id='showAll')
+        thead
+            tr
+                th Course Code
+                th Term
+                th Title
+        tbody
+
+    script.
+        function checkCookie() {
+            var userSched = getCookie("mySched");
+            console.log(userSched);
+            if (userSched != "") {
+                document.getElementById('mySched').innerHTML = userSched;
+            } else {
+                setCookie("mySched", document.getElementById('mySched').innerHTML);
+            }
+        }
+        
+        function getCookie(cSched) {
+            var name = cSched + "=";
+            console.log()
+            var ca = document.cookie.split(';');
+            var i;
+            for (i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        
+        function setCookie(cName, cValue) {
+            var d = new Date();
+            d.setTime(d.getTime() + (30*24*60*60*1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+        }
+
     script.
         function copyRow(tableId, rowIndex, filterVal) {
             var myTable = document.getElementById('mySched').tBodies[0];
@@ -61,7 +104,10 @@ main
                         myTable.appendChild(rowCopy);
                         var myRowIndex = myTable.rows.namedItem(rowCopy.id).rowIndex;
                         console.log(myRowIndex);
-                        myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "document.getElementById('mySched').deleteRow(this.rowIndex)");
+                        
+                        myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "clearRow(this.rowIndex)");
+                        
+                        setCookie("mySched", document.getElementById('mySched').innerHTML);
                     } else {
                         console.log("ERROR: duplicate entry!")
                     }
@@ -69,9 +115,17 @@ main
                     myTable.appendChild(rowCopy);
                     var myRowIndex = myTable.rows.namedItem(rowCopy.id).rowIndex;
                     console.log(myRowIndex);
-                    myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "document.getElementById('mySched').deleteRow(this.rowIndex)");
+                    
+                    myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "clearRow(this.rowIndex)");
+                    
+                    setCookie("mySched", document.getElementById('mySched').innerHTML);
                 }
             }
+        }
+        
+        function clearRow(index) {
+            document.getElementById('mySched').deleteRow(index);
+            setCookie("mySched", document.getElementById('mySched').innerHTML);
         }
 
     script.
@@ -184,7 +238,6 @@ main
                 }
                 getTable.rows[i].setAttribute("onclick", "copyRow('showAll', " + i + ", 0)");
             }
-            //document.getElementById("showAll").style.display = 'block';
         }
 
     script.
@@ -194,6 +247,7 @@ main
                 document.getElementsByTagName('select')[i].style.display = 'none';
             }
             if(value !== ''){
+                document.getElementById(value).selectedIndex = "0";
                 document.getElementById(value).style.display = 'inline';
             }
         }
@@ -207,10 +261,11 @@ main
             for (i = 1; i < document.getElementsByTagName('select').length; i++) {
                 document.getElementsByTagName('select')[i].style.display = 'none';
             }
-            if (document.getElementsByTagName('table').length > 1) {
-                for (i = 1; i < document.getElementsByTagName('table').length; i++) {
-                    document.body.removeChild(document.getElementsByTagName('table')[i]);
-                }
+            if (document.getElementById("prof") !== null) {
+                document.body.removeChild(document.getElementById("prof"));
+            }
+            if (document.getElementById("dept") !== null) {
+                document.body.removeChild(document.getElementById("dept"));
             }
         }
 
@@ -230,13 +285,7 @@ main
             }
         }
 
-    table#showAll
-        thead
-            tr
-                th Course Code
-                th Term
-                th Title
-        tbody
+
 
 
 
