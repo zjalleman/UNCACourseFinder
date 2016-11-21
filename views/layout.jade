@@ -139,6 +139,27 @@ main
             }
         }
         
+        function checkConflicts() {
+            var mySched = document.getElementById('mySched');
+            var myRows = mySched.tBodies[0].rows;
+            var days, tStart, tEnd, i, j;
+            for (i = 0; i < myRows.length; i++) {
+                days = rows[i].cells[6].innerHTML;
+                
+                tStart = rows[i].cells[7].innerHTML.split(':');
+                tStart = tStart[0].concat(tStart[1]);
+                
+                tEnd = rows[i].cells[8].innerHTML.split(':');
+                tEnd = tEnd[0].concat(tEnd[1]);
+                
+                for (j = 0; j < myRows.length; j++) {
+                    if (j !== i) {
+                        //TODO check for time conflicts and mark red!!!
+                    }
+                }
+            }
+        }
+        
         function clearRow(index) {
             document.getElementById('mySched').deleteRow(index);
             setCookie("mySched", document.getElementById('mySched').innerHTML);
@@ -190,6 +211,8 @@ main
                 var profTable = document.createElement("TABLE");
                 profTable.setAttribute("id", "prof");
                 profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Filtering by Instructor(s) " + value;
+                
+                //profTable.appendChild(document.createElement("TR").innerHTML = document.getElementById('showAll').rows[0].innerHTML);
 
                 /*var header = profTable.createTHead();
                 var hRow = header.insertRow(0);
@@ -240,6 +263,8 @@ main
                 var deptTable = document.createElement("TABLE");
                 deptTable.setAttribute("id", "dept");
                 deptTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Showing Courses in " + value;
+                
+                //deptTable.appendChild(document.createElement("TR").innerHTML = document.getElementById('showAll').rows[0].innerHTML);
 
                 //deptTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
 
