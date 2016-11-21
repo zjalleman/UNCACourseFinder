@@ -13,8 +13,12 @@ main
         | Display All
     button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
         | Display All
+
     button(type='button', onclick="hideAll()")
         | Hide All
+
+    input(type='text', id='searchInput', onkeyup="searchTable()", placeholder='Search full table...')
+
     button(type='button', onclick="resetFilter()")
         | Reset Filter
 
@@ -35,12 +39,24 @@ main
         each item in profList
             option(value=item)= item
 
-    table(id='showAll')
+    table#showAll
         thead
             tr
                 th Course Code
                 th Term
                 th Title
+                th Instructor(s)
+                th CRN
+                th Hrs
+                th Days
+                th Start Time
+                th End Time
+                th Location
+                th Lmt
+                th Enr
+                th WLCap
+                th WLAct
+                th Department
         tbody
 
     script.
@@ -129,8 +145,32 @@ main
         }
 
     script.
+        function searchTable() {
+            var input = document.getElementById('searchInput').value.toUpperCase();
+            var table = document.getElementById('showAll');
+            var tRows = table.tBodies[0].rows;
+            var i, j, tCell;
+            
+            //hide rows that do not match input
+            for (i = 0; i < tRows.length; i++) {
+                var matchFound = 0;
+                for (j = 0; j < tRows[i].cells.length; j++) {
+                    tCell = tRows[i].cells[j];
+                    if (tCell.innerHTML.toUpperCase().indexOf(input) > -1) {
+                        matchFound = 1;
+                    }
+                }
+                if (matchFound > 0) {
+                    tRows[i].style.display = "";
+                } else {
+                    tRows[i].style.display = "none";
+                }
+            }
+        }
+
+    script.
         function filterByProf(value) {
-            console.log('31');
+            //console.log('filterByProf');
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
             }
@@ -139,6 +179,7 @@ main
                     document.body.removeChild(document.getElementById("prof"));
                 }
             } else {
+                document.getElementById("showAll").style.display = 'none';
                 var list = "#{main}";
                 var main = list.split("_,");
                 main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
@@ -148,11 +189,11 @@ main
                 }
                 var profTable = document.createElement("TABLE");
                 profTable.setAttribute("id", "prof");
-                //profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Course Code";
+                profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Filtering by Instructor(s) " + value;
 
-                var header = profTable.createTHead();
+                /*var header = profTable.createTHead();
                 var hRow = header.insertRow(0);
-                hRow.insertCell(0).outerHTML = "<th>Course Code</th>";
+                hRow.insertCell(0).outerHTML = "<th>Course Code</th>";*/
 
 
                 //profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
