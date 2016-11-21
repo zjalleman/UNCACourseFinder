@@ -229,6 +229,7 @@ main
                     document.body.removeChild(document.getElementById("dept"));
                 }
             } else {
+                document.getElementById("showAll").style.display = 'none';
                 var list = "#{main}";
                 var main = list.split("_,");
                 main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
