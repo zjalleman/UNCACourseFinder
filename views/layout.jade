@@ -123,6 +123,8 @@ main
                         
                         myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "clearRow(this.rowIndex)");
                         
+                        checkConflicts();
+                        
                         setCookie("mySched", document.getElementById('mySched').innerHTML);
                     } else {
                         console.log("ERROR: duplicate entry!")
@@ -134,6 +136,8 @@ main
                     
                     myTable.rows.namedItem(rowCopy.id).setAttribute("onclick", "clearRow(this.rowIndex)");
                     
+                    checkConflicts();
+                    
                     setCookie("mySched", document.getElementById('mySched').innerHTML);
                 }
             }
@@ -142,19 +146,32 @@ main
         function checkConflicts() {
             var mySched = document.getElementById('mySched');
             var myRows = mySched.tBodies[0].rows;
-            var days, tStart, tEnd, i, j;
+            var daysI, tStartI, tEndI, i, j, k;
             for (i = 0; i < myRows.length; i++) {
-                days = rows[i].cells[6].innerHTML;
+                daysI = myRows[i].cells[6].innerHTML;
                 
-                tStart = rows[i].cells[7].innerHTML.split(':');
-                tStart = tStart[0].concat(tStart[1]);
+                tStartI = myRows[i].cells[7].innerHTML.split(':');
+                tStartI = tStartI[0].concat(tStartI[1]);
                 
-                tEnd = rows[i].cells[8].innerHTML.split(':');
-                tEnd = tEnd[0].concat(tEnd[1]);
+                tEndI = myRows[i].cells[8].innerHTML.split(':');
+                tEndI = tEndI[0].concat(tEndI[1]);
                 
                 for (j = 0; j < myRows.length; j++) {
-                    if (j !== i) {
-                        //TODO check for time conflicts and mark red!!!
+                    if (j !== i && !daysI.includes("TBA")) {
+                        var daysJ = myRows[j].cells[6].innerHTML;
+                        var tStartJ = myRows[j].cells[7].innerHTML.split(':');
+                        tStartJ = tStartJ[0].concat(tStartJ[1]);
+                        var tEndJ = myRows[j].cells[8].innerHTML.split(':');
+                        tEndJ = tEndJ[0].concat(tEndJ[1]);
+                        
+                        for (k = 0; k < daysJ.length; k++) {
+                            if (daysI.includes(daysJ[k]) && !daysJ.includes("TBA")) {
+                                if ((tStartJ >= tStartI && tStartJ <= tEndI) || (tEndJ >= tStartI && tEndJ <= tEndI)) {
+                                    myRows[i].className = "conf";
+                                    myRows[j].className = "conf";
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -162,6 +179,12 @@ main
         
         function clearRow(index) {
             document.getElementById('mySched').deleteRow(index);
+            var c = document.getElementsByClassName('conf');
+            var i;
+            for (i = 0; i < c.length; i++) {
+                c[i].removeAttribute("class");
+            }
+            checkConflicts();
             setCookie("mySched", document.getElementById('mySched').innerHTML);
         }
 
@@ -305,7 +328,7 @@ main
                 }
                 getTable.rows[i].setAttribute("onclick", "copyRow('showAll', " + i + ", 0)");
             }
-            document.getElementById('showAll').style.display = 'block'
+            document.getElementById('showAll').style.display = 'block';
         }
 
     script.
@@ -335,6 +358,7 @@ main
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
             }
+            document.getElementById('showAll').style.display = 'block';
         }
 
     script.
