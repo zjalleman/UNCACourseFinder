@@ -20,6 +20,10 @@ td, th {
     padding: 8px;
 }
 
+th {
+    background-color: #dddddd;
+}
+
 /*tr:nth-child(even) {
     background-color: #dddddd;
 }*/
@@ -34,6 +38,7 @@ tr:hover {
 
 #mySched {
     display: block;
+    margin-bottom: 50px;
 }
 
 .conf {
