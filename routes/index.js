@@ -3,14 +3,14 @@ var mysql = require('mysql');
 var http = require('http');
 var router = express.Router();
 
-var options = {
+var options = {//course list connection info. Provided by Luke Withrow
     hostname: 'www3.unca.edu',
     port: 80, 
     path: '/schedules/dev/schedules-json.php?term=201710&department=ALL'
     //path: '/schedules/dev/schedules-json.php?term=201660&department=ALL'
 };
 
-var connection = mysql.createConnection({
+var connection = mysql.createConnection({//Database connection info.
     host : 'aa1awz10v1nwj5i.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
     user : 'zach',
     password : 'uncacoursefinder',
@@ -20,21 +20,12 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-/*connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-  if (err) throw err;
-  console.log('The solution is: ', rows[0].solution);
-});
-
-connection.query('SHOW TABLES IN mydb', function(err, rows, fields) {
-  if (err) throw err;
-  console.log('The solution is: ', rows);
-});*/
-
+//req does all data manipulation and acquisition
+//from UNCA Course List to Database
+//and from Database to webapp.
 var body = [];
 var req = http.request(options, (res) => {
-    //console.log(res);
     res.on('data', (chunk) => {
-        //console.log(`BODY: ${chunk}`);
         body.push(chunk);
     });
     res.on('end', function() {
@@ -42,6 +33,9 @@ var req = http.request(options, (res) => {
         console.log(JSON.parse(body).length);
         var i;
         
+        //Insert statements for adding data to Database.
+        //Only needed when rebuilding the Database.
+        /*//begin comment
         for (i = 0; i < JSON.parse(body).length; i++) {
             var qBody = JSON.parse(body)[i];
             
@@ -88,13 +82,17 @@ var req = http.request(options, (res) => {
             
             console.log("IvC " + i);
         }
+        //end comment*/
         
+        //Pulls the course info from the database
+        //and stores it in variables to be sent
+        //from server to webpage.
         connection.query('SELECT codeCourses, term, titleCourses, nameInstructors, CourseInfo.crn, hours, days, startTime, endTime, location, lmt, enr, wlCap, wlAct, nameDepartments FROM CourseInfo, Instructors, InstVsCourse, Departments WHERE CourseInfo.crn = InstVsCourse.crn AND Instructors.idInstructors = InstVsCourse.idInstructors AND CourseInfo.idDepartments = Departments.idDepartments ORDER BY `idCourse` ASC;', function(err, rows, fields) {
             console.log("hi");
             if (err) throw err;
-            var text = new Array(rows.length);
-            var dept = new Array();
-            var prof = new Array();
+            var text = new Array(rows.length);//stores each row of course data
+            var dept = new Array();//stores department name abbreviations
+            var prof = new Array();//stores instructor usernames
             var x;
             var j;
             var k;
@@ -138,23 +136,4 @@ var req = http.request(options, (res) => {
 });
 
 req.end();
-/*router.get('http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI', function(req, res, next) {
-    console.log(res.toString);
-});*/
-
-/*var main = function() {
-    var url = 'http://www3.unca.edu/schedules/dev/schedules-json.php?term=201660&department=CSCI';
-    $.getJSON(url, function(uncaResponse) {
-        console.log(uncaResponse);
-        var $schedTable = $('<table>');
-    });
-};*/
-
-//connection.end();
-
-/* GET home page. */
-/*router.get('/', function(req, res, next) {
-    res.render('layout', { main: 'hi'});
-});*/
-    
 module.exports = router;
