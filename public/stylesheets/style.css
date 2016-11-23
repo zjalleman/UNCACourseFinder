@@ -38,7 +38,10 @@ tr:hover {
 
 #mySched {
     display: block;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
+    height: 250px;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .conf {

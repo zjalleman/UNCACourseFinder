@@ -11,11 +11,14 @@ main
 
     //button(type='button', onclick="showAll()")
         | Display All
-    button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
+    //button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
         | Display All
 
     //button(type='button', onclick="hideAll()")
         | Hide All
+
+    button(type='button', onclick="showHelp()")
+        | Help
 
     input(type='text', id='searchInput', onkeyup="searchTable()", placeholder='Search full table...')
 
@@ -146,7 +149,7 @@ main
         function checkConflicts() {
             var mySched = document.getElementById('mySched');
             var myRows = mySched.tBodies[0].rows;
-            var daysI, tStartI, tEndI, i, j, k;
+            var daysI, tStartI, tEndI, i, j, k, x;
             for (i = 0; i < myRows.length; i++) {
                 daysI = myRows[i].cells[6].innerHTML;
                 
@@ -167,8 +170,21 @@ main
                         for (k = 0; k < daysJ.length; k++) {
                             if (daysI.includes(daysJ[k]) && !daysJ.includes("TBA")) {
                                 if ((tStartJ >= tStartI && tStartJ <= tEndI) || (tEndJ >= tStartI && tEndJ <= tEndI)) {
+                                    
                                     myRows[i].className = "conf";
+                                    if (myRows[i].cells.namedItem("conf" + myRows[j].cells[0].innerHTML) === null) {
+                                        x = myRows[i].insertCell(-1);
+                                        x.innerHTML = "Conflicts with " + myRows[j].cells[0].innerHTML;
+                                        x.id = "conf" + myRows[j].cells[0].innerHTML;
+                                    }
+                                    
                                     myRows[j].className = "conf";
+                                    if (myRows[j].cells.namedItem("conf" + myRows[i].cells[0].innerHTML) === null) {
+                                        x = myRows[j].insertCell(-1);
+                                        x.innerHTML = "Conflicts with " + myRows[i].cells[0].innerHTML;
+                                        x.id = "conf" + myRows[i].cells[0].innerHTML;
+                                    }
+                                    
                                 }
                             }
                         }
@@ -181,8 +197,16 @@ main
             document.getElementById('mySched').deleteRow(index);
             var c = document.getElementsByClassName('conf');
             var i;
-            for (i = 0; i < c.length; i++) {
+            var l = c.length - 1;
+            for (i = l; i >= 0; i--) {
+                console.log("clearRow " + c.length);
+                console.log("clearRow l " + l);
+                while (c[i].cells.length > 15) {
+                    c[i].deleteCell(-1);
+                }
                 c[i].removeAttribute("class");
+                console.log("clearRow " + c.length);
+                console.log("clearRow l " + l);
             }
             checkConflicts();
             setCookie("mySched", document.getElementById('mySched').innerHTML);
@@ -377,7 +401,10 @@ main
             }
         }
 
-
+    script.
+        function showHelp() {
+            alert("Directions: \n");
+        }
 
 
 
