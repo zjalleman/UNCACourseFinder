@@ -382,6 +382,8 @@ main
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
             }
+            document.getElementById('searchInput').value = '';
+            searchTable();
             document.getElementById('showAll').style.display = 'block';
         }
 
