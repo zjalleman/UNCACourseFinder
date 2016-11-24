@@ -1,14 +1,12 @@
 body {
     padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
     background-image: url("/images/Mt_Mitchell.jpg");
     background-attachment: fixed;
-    /*Background source*/
-    /*By Thomson200 (Own work) [<a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en">CC0</a>], <a href="https://commons.wikimedia.org/wiki/File%3AMt_Mitchell_from_from_Black_Mountains_Overlook%2C_October_2016.jpg">via Wikimedia Commons</a>*/
 }
 
 a {
-    color: #00B7FF;
+    color: #0000FF;
 }
 
 table {
@@ -41,11 +39,16 @@ tr:hover {
 }
 
 #mySched {
+    border: 1px solid black;
     display: block;
     margin-bottom: 25px;
     height: 250px;
     overflow-x: auto;
     overflow-y: auto;
+}
+
+#sectionCL {
+   display: block; 
 }
 
 .conf {

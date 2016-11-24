@@ -1,36 +1,28 @@
+//Zachary Alleman
 include home.html
 body(onload='showAll(); checkCookie()')
 
 main
 
+    table#sectionCL
+        tr
+            th My Schedule
+
     table#mySched
         thead
             tr
-                th My Schedule
         tbody
 
-    //button(type='button', onclick="showAll()")
-        | Display All
-    //button(type='button', onclick="document.getElementById('showAll').style.display = 'block'")
-        | Display All
-
-    //button(type='button', onclick="hideAll()")
-        | Hide All
-
-    button(type='button', onclick="showHelp()")
-        | Help
 
     input(type='text', id='searchInput', onkeyup="searchTable()", placeholder='Search full table...')
 
-    button(type='button', onclick="resetFilter()")
+    button(type='button', onclick="resetFilter()", title="Resets search bar and filter menu.")
         | Reset Filter
 
     select(id='filter', name='FilterDropDwn', onchange="showFilter(this.value)")
         option(selected='', value='') Filter by...
         option(value='filterDept') Department
         option(value='filterProf') Instructor
-
-    //p= main.length
 
     select(id='filterDept', name='deptDropDwn', onchange="filterByDept(this.value)")
         option(selected='', value='') Select Department...
@@ -41,6 +33,10 @@ main
         option(selected='', value='') Select Instructor...
         each item in profList
             option(value=item)= item
+
+    table#sectionCL
+        tr
+            th Course List
 
     table#showAll
         thead
@@ -117,7 +113,6 @@ main
                         if (myRow.innerHTML.toString() === rowCopy.innerHTML.toString()) {
                             dupe = 1;
                         }
-                        //console.log("hi " + dupe);
                     }
                     if (dupe === 0) {
                         myTable.appendChild(rowCopy);
@@ -184,7 +179,6 @@ main
                                         x.innerHTML = "Conflicts with " + myRows[i].cells[0].innerHTML;
                                         x.id = "conf" + myRows[i].cells[0].innerHTML;
                                     }
-                                    
                                 }
                             }
                         }
@@ -238,7 +232,6 @@ main
 
     script.
         function filterByProf(value) {
-            //console.log('filterByProf');
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
             }
@@ -251,7 +244,7 @@ main
                 var list = "#{main}";
                 var main = list.split("_,");
                 main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
-                //console.log(main[0]);
+                
                 if (document.getElementById("prof") !== null) {
                     document.body.removeChild(document.getElementById("prof"));
                 }
@@ -259,15 +252,6 @@ main
                 profTable.setAttribute("id", "prof");
                 profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Filtering by Instructor(s) " + value;
                 
-                //profTable.appendChild(document.createElement("TR").innerHTML = document.getElementById('showAll').rows[0].innerHTML);
-
-                /*var header = profTable.createTHead();
-                var hRow = header.insertRow(0);
-                hRow.insertCell(0).outerHTML = "<th>Course Code</th>";*/
-
-
-                //profTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
-
                 document.body.appendChild(profTable);
 
                 var i;
@@ -290,7 +274,6 @@ main
 
     script.
         function filterByDept(value) {
-            //console.log('70');
             if (document.getElementById("prof") !== null) {
                 document.body.removeChild(document.getElementById("prof"));
             }
@@ -303,7 +286,7 @@ main
                 var list = "#{main}";
                 var main = list.split("_,");
                 main.splice(main.length - 1, 1, main[main.length - 1].slice(0, this.length-1));
-                //console.log(main[0]);
+                
                 if (document.getElementById("dept") !== null) {
                     document.body.removeChild(document.getElementById("dept"));
                 }
@@ -311,12 +294,8 @@ main
                 deptTable.setAttribute("id", "dept");
                 deptTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Showing Courses in " + value;
                 
-                //deptTable.appendChild(document.createElement("TR").innerHTML = document.getElementById('showAll').rows[0].innerHTML);
-
-                //deptTable.getElementsByTagName("TH")[0].setAttribute("onclick", "console.log('yo')");
-
                 document.body.appendChild(deptTable);
-
+                
                 var i;
                 var j;
                 var k;
@@ -343,7 +322,7 @@ main
             var getTable = document.getElementById("showAll").tBodies[0];
             var i;
             var j;
-
+            
             for (i = 0; i < main.length; i++) {
                 getTable.insertRow(-1);
                 var rowData = main[i].split("_");
@@ -387,7 +366,7 @@ main
             document.getElementById('showAll').style.display = 'block';
         }
 
-    script.
+    //script.
         function hideAll() {
             var x = document.getElementsByTagName('table');
             var i;
@@ -402,17 +381,3 @@ main
                 document.getElementsByTagName('select')[i].style.display = 'none';
             }
         }
-
-    script.
-        function showHelp() {
-            alert("Directions: \n");
-        }
-
-
-
-
-
-
-
-
-
