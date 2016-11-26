@@ -150,21 +150,28 @@ main
                 
                 tStartI = myRows[i].cells[7].innerHTML.split(':');
                 tStartI = tStartI[0].concat(tStartI[1]);
+                tStartI = Number(tStartI);
                 
                 tEndI = myRows[i].cells[8].innerHTML.split(':');
                 tEndI = tEndI[0].concat(tEndI[1]);
+                tEndI = Number(tEndI);
                 
                 for (j = 0; j < myRows.length; j++) {
-                    if (j !== i && !daysI.includes("TBA")) {
+                    if (j !== i && daysI.search("TBA") === -1) {
                         var daysJ = myRows[j].cells[6].innerHTML;
                         var tStartJ = myRows[j].cells[7].innerHTML.split(':');
                         tStartJ = tStartJ[0].concat(tStartJ[1]);
+                        tStartJ = Number(tStartJ);
+                        
                         var tEndJ = myRows[j].cells[8].innerHTML.split(':');
                         tEndJ = tEndJ[0].concat(tEndJ[1]);
+                        tEndJ = Number(tEndJ);
                         
                         for (k = 0; k < daysJ.length; k++) {
-                            if (daysI.includes(daysJ[k]) && !daysJ.includes("TBA")) {
+                            
+                            if (daysI.includes(daysJ.split("")[k]) && daysJ.search("TBA") === -1) {
                                 if ((tStartJ >= tStartI && tStartJ <= tEndI) || (tEndJ >= tStartI && tEndJ <= tEndI)) {
+                                    console.log(daysJ.split("")[k]);
                                     
                                     myRows[i].className = "conf";
                                     if (myRows[i].cells.namedItem("conf" + myRows[j].cells[0].innerHTML) === null) {
@@ -180,8 +187,12 @@ main
                                         x.id = "conf" + myRows[i].cells[0].innerHTML;
                                     }
                                 }
+                            } else if (daysJ.search("TBA") !== -1) {
+                                console.log("TBA");
                             }
                         }
+                    } else if (daysI.search("TBA") !== -1) {
+                        console.log("TBA");
                     }
                 }
             }
