@@ -7,6 +7,7 @@ main
     table#sectionMS
         tr
             th My Schedule
+            th 8 Courses Max
 
     table#mySched
         thead
@@ -81,16 +82,17 @@ main
             var userSched = getCookie("mySched");
             console.log(userSched);
             if (userSched != "") {
-                document.getElementById('mySched').innerHTML = userSched;
+                document.getElementById('mySched').tBodies[0].innerHTML = userSched;
+                checkConflicts();
             } else {
-                setCookie("mySched", document.getElementById('mySched').innerHTML);
+                setCookie("mySched", document.getElementById('mySched').tBodies[0].innerHTML);
             }
         }
         
         //searches cookies for one that's name matches cSched
         function getCookie(cSched) {
             var name = cSched + "=";
-            console.log()
+            console.log();
             var ca = document.cookie.split(';');
             var i;
             for (i = 0; i < ca.length; i++) {
@@ -99,7 +101,7 @@ main
                     c = c.substring(1);
                 }
                 if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
+                    return decodeURIComponent(c.substring(name.length, c.length));
                 }
             }
             return "";
@@ -110,7 +112,8 @@ main
             var d = new Date();
             d.setTime(d.getTime() + (30*24*60*60*1000));
             var expires = "expires=" + d.toGMTString();
-            document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+            
+            document.cookie = cName + '=' + encodeURIComponent(cValue) + '; ' + expires + '; path=/';
         }
 
     script.
@@ -125,7 +128,7 @@ main
             }
             var rowCopy = row.cloneNode(true);
             rowCopy.id = tableId + rowIndex + filterVal;
-            if (myTable.rows.namedItem(rowCopy.id) === null) {
+            if (myTable.rows.namedItem(rowCopy.id) === null && myTable.rows.length < 8) {
                 if (myTable.rows.length > 0) {
                     var i, j;
                     var dupe = 0;
@@ -150,7 +153,7 @@ main
                         
                         checkConflicts();
                         
-                        setCookie("mySched", document.getElementById('mySched').innerHTML);
+                        //setCookie("mySched", document.getElementById('mySched').innerHTML);
                     } else {
                         console.log("ERROR: duplicate entry!");
                         alert("ERROR: duplicate entry!");
@@ -164,8 +167,11 @@ main
                     
                     checkConflicts();
                     
-                    setCookie("mySched", document.getElementById('mySched').innerHTML);
+                    //setCookie("mySched", document.getElementById('mySched').innerHTML);
                 }
+            } else if (myTable.rows.length >= 8) {
+                console.log("ERROR: Schedule at max(8)");
+                alert("ERROR: Schedule at max(8)");
             } else {
                 console.log("ERROR: duplicate entry!");
                 alert("ERROR: duplicate entry!");
@@ -174,6 +180,9 @@ main
         
         //checks My Schedule for time conflicts
         function checkConflicts() {
+            clearRow(-1);
+            setCookie("mySched", document.getElementById('mySched').tBodies[0].innerHTML);
+            
             var mySched = document.getElementById('mySched');
             var myRows = mySched.tBodies[0].rows;
             var daysI, tStartI, tEndI, i, j, k, x;
@@ -228,11 +237,15 @@ main
                     }
                 }
             }
+            //setCookie("mySched", document.getElementById('mySched').innerHTML);
         }
         
         //Removes the selected row from My Schedule then rechecks conflicts and update cookie
         function clearRow(index) {
-            document.getElementById('mySched').deleteRow(index);
+            if (index !== -1) {
+                document.getElementById('mySched').deleteRow(index);
+            }
+            
             var c = document.getElementsByClassName('conf');
             var i;
             var l = c.length - 1;
@@ -246,8 +259,12 @@ main
                 console.log("clearRow " + c.length);
                 console.log("clearRow l " + l);
             }
-            checkConflicts();
-            setCookie("mySched", document.getElementById('mySched').innerHTML);
+            
+            if (index !== -1) {
+                checkConflicts();
+            }
+            
+            //setCookie("mySched", document.getElementById('mySched').innerHTML);
         }
 
     script.
