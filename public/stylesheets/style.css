@@ -51,7 +51,7 @@ tr:hover {
     overflow-y: auto;
 }
 
-#sectionCL {
+#sectionCL, #sectionMS {
     border: none;
     display: block;
     height: auto;

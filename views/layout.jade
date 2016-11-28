@@ -4,13 +4,29 @@ body(onload='showAll(); checkCookie()')
 
 main
 
-    table#sectionCL
+    table#sectionMS
         tr
             th My Schedule
 
     table#mySched
         thead
             tr
+                th Course Code
+                th Term
+                th Title
+                th Instructor(s)
+                th CRN
+                th Hrs
+                th Days
+                th Start Time
+                th End Time
+                th Location
+                th Lmt
+                th Enr
+                th WLCap
+                th WLAct
+                th Department
+                th Conflicts
         tbody
 
     p(style="display:inline;font-weight:bold;font-size:18px;") Search Table: 
@@ -60,6 +76,7 @@ main
         tbody
 
     script.
+        //checks if mySched cookie exists, if not, then create one
         function checkCookie() {
             var userSched = getCookie("mySched");
             console.log(userSched);
@@ -70,6 +87,7 @@ main
             }
         }
         
+        //searches cookies for one that's name matches cSched
         function getCookie(cSched) {
             var name = cSched + "=";
             console.log()
@@ -87,6 +105,7 @@ main
             return "";
         }
         
+        //creates a cookie with the schedule data for 30 days
         function setCookie(cName, cValue) {
             var d = new Date();
             d.setTime(d.getTime() + (30*24*60*60*1000));
@@ -95,6 +114,7 @@ main
         }
 
     script.
+        //adds the selected course list row to My Schedule
         function copyRow(tableId, rowIndex, filterVal) {
             var myTable = document.getElementById('mySched').tBodies[0];
             var row;
@@ -152,6 +172,7 @@ main
             }
         }
         
+        //checks My Schedule for time conflicts
         function checkConflicts() {
             var mySched = document.getElementById('mySched');
             var myRows = mySched.tBodies[0].rows;
@@ -209,6 +230,7 @@ main
             }
         }
         
+        //Removes the selected row from My Schedule then rechecks conflicts and update cookie
         function clearRow(index) {
             document.getElementById('mySched').deleteRow(index);
             var c = document.getElementsByClassName('conf');
@@ -229,6 +251,7 @@ main
         }
 
     script.
+        //hides rows on the main course list that do not match the search bar input
         function searchTable() {
             var input = document.getElementById('searchInput').value.toUpperCase();
             var table = document.getElementById('showAll');
@@ -253,6 +276,7 @@ main
         }
 
     script.
+        //creates a table filtered by the selected instructor (value).
         function filterByProf(value) {
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
@@ -272,7 +296,10 @@ main
                 }
                 var profTable = document.createElement("TABLE");
                 profTable.setAttribute("id", "prof");
-                profTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Filtering by Instructor(s) " + value;
+                
+                document.getElementById('sectionCL').rows[0].cells[0].innerHTML = "Filtering by Instructor(s) " + value;
+                
+                profTable.innerHTML = document.getElementById("showAll").tHead.innerHTML;
                 
                 document.body.appendChild(profTable);
 
@@ -295,6 +322,7 @@ main
         }
 
     script.
+        //creates a table filtered by the selected Department (value).
         function filterByDept(value) {
             if (document.getElementById("prof") !== null) {
                 document.body.removeChild(document.getElementById("prof"));
@@ -314,7 +342,10 @@ main
                 }
                 var deptTable = document.createElement("TABLE");
                 deptTable.setAttribute("id", "dept");
-                deptTable.appendChild(document.createElement("TR")).appendChild(document.createElement("TH")).innerHTML = "Showing Courses in " + value;
+                
+                document.getElementById('sectionCL').rows[0].cells[0].innerHTML = "Filtering by Department " + value;
+                
+                deptTable.innerHTML = document.getElementById("showAll").tHead.innerHTML;
                 
                 document.body.appendChild(deptTable);
                 
@@ -337,6 +368,7 @@ main
         }
 
     script.
+        //creates and displays the main course list.
         function showAll() {
             var list = "#{main}";
             var main = list.split("_,");
@@ -357,6 +389,7 @@ main
         }
 
     script.
+        //once type of filter chosen display second dropdown menu.
         function showFilter(value) {
             var i;
             for (i = 1; i < document.getElementsByTagName('select').length; i++) {
@@ -369,6 +402,7 @@ main
         }
 
     script.
+        //resets the filters and displays full course list
         function resetFilter() {
             var i;
             for (i = 0; i < document.getElementsByTagName('select').length; i++) {
@@ -383,23 +417,8 @@ main
             if (document.getElementById("dept") !== null) {
                 document.body.removeChild(document.getElementById("dept"));
             }
+            document.getElementById('sectionCL').rows[0].cells[0].innerHTML = "Course List";
             document.getElementById('searchInput').value = '';
             searchTable();
             document.getElementById('showAll').style.display = 'block';
-        }
-
-    //script.
-        function hideAll() {
-            var x = document.getElementsByTagName('table');
-            var i;
-            for (i = 1; i < x.length; i++) {
-                x[i].style.display = 'none';
-            }
-
-            for (i = 0; i < document.getElementsByTagName('select').length; i++) {
-                document.getElementsByTagName('select')[i].selectedIndex = "0";
-            }
-            for (i = 1; i < document.getElementsByTagName('select').length; i++) {
-                document.getElementsByTagName('select')[i].style.display = 'none';
-            }
         }
