@@ -186,7 +186,9 @@ main
             var mySched = document.getElementById('mySched');
             var myRows = mySched.tBodies[0].rows;
             var daysI, tStartI, tEndI, i, j, k, x;
+            
             for (i = 0; i < myRows.length; i++) {
+                //Stores the time data for row i
                 daysI = myRows[i].cells[6].innerHTML;
                 
                 tStartI = myRows[i].cells[7].innerHTML.split(':');
@@ -199,6 +201,7 @@ main
                 
                 for (j = 0; j < myRows.length; j++) {
                     if (j !== i && daysI.search("TBA") === -1) {
+                        //Stores the time data for row j
                         var daysJ = myRows[j].cells[6].innerHTML;
                         var tStartJ = myRows[j].cells[7].innerHTML.split(':');
                         tStartJ = tStartJ[0].concat(tStartJ[1]);
@@ -207,20 +210,20 @@ main
                         var tEndJ = myRows[j].cells[8].innerHTML.split(':');
                         tEndJ = tEndJ[0].concat(tEndJ[1]);
                         tEndJ = Number(tEndJ);
-                        
                         for (k = 0; k < daysJ.length; k++) {
-                            
+                            // checks if row i and row j meet on the same day
                             if (daysI.includes(daysJ.split("")[k]) && daysJ.search("TBA") === -1) {
+                                // checks if the rows meet at the same time
                                 if ((tStartJ >= tStartI && tStartJ <= tEndI) || (tEndJ >= tStartI && tEndJ <= tEndI)) {
                                     console.log(daysJ.split("")[k]);
-                                    
+                                    //checks if the conflict has already been found
                                     myRows[i].className = "conf";
                                     if (myRows[i].cells.namedItem("conf" + myRows[j].cells[0].innerHTML) === null) {
                                         x = myRows[i].insertCell(-1);
                                         x.innerHTML = "Conflicts with " + myRows[j].cells[0].innerHTML;
                                         x.id = "conf" + myRows[j].cells[0].innerHTML;
                                     }
-                                    
+                                    //checks if the conflict has already been found
                                     myRows[j].className = "conf";
                                     if (myRows[j].cells.namedItem("conf" + myRows[i].cells[0].innerHTML) === null) {
                                         x = myRows[j].insertCell(-1);
@@ -228,16 +231,15 @@ main
                                         x.id = "conf" + myRows[i].cells[0].innerHTML;
                                     }
                                 }
-                            } else if (daysJ.search("TBA") !== -1) {
+                            } else if (daysJ.search("TBA") !== -1) { //if day is TBA, no conflict
                                 console.log("TBA");
                             }
                         }
-                    } else if (daysI.search("TBA") !== -1) {
+                    } else if (daysI.search("TBA") !== -1) { //if day is TBA, no conflict
                         console.log("TBA");
                     }
                 }
             }
-            //setCookie("mySched", document.getElementById('mySched').innerHTML);
         }
         
         //Removes the selected row from My Schedule then rechecks conflicts and update cookie
