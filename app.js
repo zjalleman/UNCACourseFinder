@@ -15,9 +15,12 @@ var app = express();
 
 //DB Connection test start
 var connection = mysql.createConnection({
-    host : 'aa1awz10v1nwj5i.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
-    user : 'zach',
-    password : 'uncacoursefinder',
+    //host : 'aa1awz10v1nwj5i.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
+	host : 'localhost',
+    //user : 'zach',
+	user : 'root',
+    //password : 'uncacoursefinder',
+	password : 'root',
     port : '3306',
     database : 'mydb'
 });

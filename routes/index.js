@@ -10,10 +10,13 @@ var options = {//course list connection info. Provided by Luke Withrow
     //path: '/schedules/dev/schedules-json.php?term=201660&department=ALL'
 };
 
-var connection = mysql.createConnection({//Database connection info.
-    host : 'aa1awz10v1nwj5i.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
-    user : 'zach',
-    password : 'uncacoursefinder',
+var connection = mysql.createConnection({
+    //host : 'aa1awz10v1nwj5i.cvqnt5evvmnu.us-east-1.rds.amazonaws.com',
+	host : 'localhost',
+    //user : 'zach',
+	user : 'root',
+    //password : 'uncacoursefinder',
+	password : 'root',
     port : '3306',
     database : 'mydb'
 });
@@ -35,7 +38,7 @@ var req = http.request(options, (res) => {
         
         //Insert statements for adding data to Database.
         //Only needed when rebuilding the Database.
-        /*//begin comment
+        //begin comment
         for (i = 0; i < JSON.parse(body).length; i++) {
             var qBody = JSON.parse(body)[i];
             
@@ -82,7 +85,7 @@ var req = http.request(options, (res) => {
             
             console.log("IvC " + i);
         }
-        //end comment*/
+        //end comment
         
         //Pulls the course info from the database
         //and stores it in variables to be sent
