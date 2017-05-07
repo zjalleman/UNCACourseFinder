@@ -86,7 +86,7 @@ var req = http.request(options, (res) => {
             console.log("IvC " + i);
         }
         //end comment
-        
+        console.log("Pulling from db");
         //Pulls the course info from the database
         //and stores it in variables to be sent
         //from server to webpage.
