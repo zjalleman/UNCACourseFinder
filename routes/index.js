@@ -38,7 +38,7 @@ var req = http.request(options, (res) => {
         
         //Insert statements for adding data to Database.
         //Only needed when rebuilding the Database.
-        //begin comment
+        /*//begin comment
         for (i = 0; i < JSON.parse(body).length; i++) {
             var qBody = JSON.parse(body)[i];
             
@@ -85,7 +85,7 @@ var req = http.request(options, (res) => {
             
             console.log("IvC " + i);
         }
-        //end comment
+        //end comment*/
         console.log("Pulling from db");
         //Pulls the course info from the database
         //and stores it in variables to be sent
